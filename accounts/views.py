@@ -6,11 +6,11 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
-
+import random
+import strings
 # Useful imports later on:
 # from django.contrib.auth.decorators import permission_required
 # from django.contrib.auth.decorators import user_passes_test
-# @login_required
 
 @csrf_exempt
 def login_view(request):
@@ -53,10 +53,21 @@ def update_password(request):
     request.user.save()
     return HttpResponse("Success!", status=200)
 
-# @csrf_exempt
-# @login_required
-# @require_http_methods(["POST"])
-# def forgotten_password(request):
+@csrf_exempt
+@login_required
+@require_http_methods(["POST"])
+def forgotten_password(request):
+
+    # Retrieve account of email
+
+    letters_numbers = string.ascii_letters + string.digits
+    new_password = ''.join(random.choice(letters_numbers) for i in range(10))
+    user.set_password(new_password)
+    user.save()
+
+    # Email him password here
+
+    return HttpResponse("Success!", status=200)
 
 
 @login_required
