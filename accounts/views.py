@@ -17,6 +17,7 @@ def login_view(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
     user = authenticate(username=username, password=password)
+    import pdb; pdb.set_trace(); # Currently allow stuff to go through
     if user is not None:
         if user.is_active:
             login(request, user)
@@ -24,14 +25,39 @@ def login_view(request):
         else:
            return HttpResponse("<h2>Account is no longer active.</h2>", status=200)
     else:
-        return HttpResponse("<h2>You must login to continue.</h2>", status=401)
         # Return an 'invalid login' error message.
+        return HttpResponse("<h2>You must login to continue.</h2>", status=401)
  
 @csrf_exempt
 @require_http_methods(["GET"])
 def logout_view(request):
     logout(request)
     return HttpResponse("<h2>You have successfully logged out!</h2>", status=200)
+
+# @csrf_exempt
+# @login_required
+# @require_http_methods(["POST"])
+# def create_view(request):
+#     if not request.user.is_superuser:
+#         return HttpResponse("Error! You are unautharized to create accounts.", status=200)
+    
+#     # New user data
+#     username = request.POST.get('username')
+#     email = request.POST.get('email')
+
+@csrf_exempt
+@login_required
+@require_http_methods(["POST"])
+def update_password(request):
+    request.user.set_password(request.POST.get('new_password'))
+    request.user.save()
+    return HttpResponse("Success!", status=200)
+
+# @csrf_exempt
+# @login_required
+# @require_http_methods(["POST"])
+# def forgotten_password(request):
+
 
 @login_required
 def test(request):
