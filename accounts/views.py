@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 import random
-import strings
+import string
 # Useful imports later on:
 # from django.contrib.auth.decorators import permission_required
 # from django.contrib.auth.decorators import user_passes_test
@@ -59,11 +59,14 @@ def update_password(request):
 def forgotten_password(request):
 
     # Retrieve account of email
+    import pdb; pdb.set_trace();
 
     letters_numbers = string.ascii_letters + string.digits
-    new_password = ''.join(random.choice(letters_numbers) for i in range(10))
-    user.set_password(new_password)
-    user.save()
+    print("New password is: " + letters_numbers)
+
+    # new_password = ''.join(random.choice(letters_numbers) for i in range(10))
+    # user.set_password(new_password)
+    # user.save()
 
     # Email him password here
 
