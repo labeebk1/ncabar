@@ -126,3 +126,10 @@ STATIC_URL = '/static/'
 # Mayble exclude later?
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+# Email Settings (encrypt later)
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'labeeb2k'
+EMAIL_HOST_PASSWORD = 'Nickger12#'
+EMAIL_USE_TLS = True
