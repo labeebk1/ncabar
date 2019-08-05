@@ -18,9 +18,9 @@ import string
 @csrf_exempt
 @require_http_methods(["POST"])
 def login_view(request):
-    username = request.GET.get('username') # why is it in the GET Request header?
+    email = request.GET.get('email')
     password = request.GET.get('password')
-    user = authenticate(username=username, password=password)
+    user = authenticate(username=email, password=password)
     if user is not None:
         if user.is_active:
             login(request, user)
@@ -32,21 +32,31 @@ def login_view(request):
         return JsonResponse({'result': 'invalid credentials'}, status=401)
  
 @csrf_exempt
+@login_required
 @require_http_methods(["GET"])
 def logout_view(request):
     logout(request)
     return JsonResponse({'result': 'success'}, status=200)
 
-# @csrf_exempt
-# @login_required
-# @require_http_methods(["POST"])
-# def create_view(request):
-#     if not request.user.is_superuser:
-#         return HttpResponse("Error! You are unautharized to create accounts.", status=200)
-    
-#     # New user data
-#     username = request.POST.get('username')
-#     email = request.POST.get('email')
+@csrf_exempt
+@require_http_methods(["POST"])
+def create_view(request):
+    # New user data
+    email = request.GET.get('email')
+    password = request.GET.get('password')
+
+    try:
+        user = User.objects.get(email=email)
+        return JsonResponse({'result': 'email already exists.'}, status=401)
+    except User.DoesNotExist:
+        user = User.objects.create_user(
+            username=email,
+            email=email,
+            password=password
+            )
+        user.save()
+        if user:
+            return JsonResponse({'result': 'success'}, status=200)
 
 @csrf_exempt
 @login_required
