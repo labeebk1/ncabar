@@ -18,7 +18,7 @@ class App extends Component {
   render() {
     return (
     <div className="App">
-        {this.props.login_status === userConstants.LOGGED_OUT ? <LoginPage/> : <HomePage/>}
+        {this.props.login_status === userConstants.LOGGED_IN ? <HomePage/> : <LoginPage/>}
     </div>
     );
   }
