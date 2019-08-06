@@ -20,16 +20,17 @@ import string
 def login_view(request):
     email = request.GET.get('email')
     password = request.GET.get('password')
+    # import pdb; pdb.set_trace();
     user = authenticate(username=email, password=password)
     if user is not None:
         if user.is_active:
             login(request, user)
-            return JsonResponse({'result': 'success'}, status=200)
+            return JsonResponse({'result': 'LOGIN_SUCCESS'}, status=200)
         else:
-            return JsonResponse({'result': 'inactive account'}, status=200)
+            return JsonResponse({'result': 'LOGIN_FAILURE'}, status=200)
     else:
         # Return an 'invalid login' error message.
-        return JsonResponse({'result': 'invalid credentials'}, status=401)
+        return JsonResponse({'result': 'LOGIN_FAILURE'}, status=200)
  
 @csrf_exempt
 @login_required
@@ -47,7 +48,7 @@ def create_view(request):
 
     try:
         user = User.objects.get(email=email)
-        return JsonResponse({'result': 'email already exists.'}, status=401)
+        return JsonResponse({'result': 'email already exists.'}, status=200)
     except User.DoesNotExist:
         user = User.objects.create_user(
             username=email,
@@ -74,7 +75,7 @@ def forgot_password(request):
     try:
         user = User.objects.get(email=email)
     except User.DoesNotExist:
-        return JsonResponse({'result': 'email not found'}, status=404)
+        return JsonResponse({'result': 'email not found'}, status=200)
 
     # Generate new random password
     letters_numbers = string.ascii_letters + string.digits
@@ -114,6 +115,7 @@ def forgot_password(request):
     return JsonResponse({'result': 'success'}, status=200)
 
 @csrf_exempt
-@login_required
-def test(request):
-    return JsonResponse({'test': 'test'}, status=200)
+def logged_in(request):
+    if request.user.is_anonymous:
+        return JsonResponse({'result': 'LOGGED_OUT'}, status=200)
+    return JsonResponse({'result': 'LOGGED_IN'}, status=200)

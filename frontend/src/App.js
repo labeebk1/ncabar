@@ -3,38 +3,32 @@
 */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import logo from './logo.svg';
-import './App.css';
-import { simpleAction } from './actions/simpleAction';
+import { getLoginStatus } from './actions/userActions';
 
 class App extends Component {
 
-simpleAction = (event) => {
-  this.props.propsSimpleAction();
-}
-render() {
-  return (
-   <div className="App">
-    <header className="App-header">
-     <img src={logo} className="App-logo" alt="logo" />
-     <h1 className="App-title">Welcome to React</h1>
-    </header>
-    <pre>
-      {
-        JSON.stringify(this.props)
-      }
-    </pre>
-    <button onClick={this.simpleAction}>Test redux action</button>
-   </div>
-  );
- }
+  constructor(props) {
+    super(props);
+    this.props.getLoginStatus();
+  }
+
+  render() {
+    return (
+    <div className="App">
+        {
+          JSON.stringify(this.props.login_status)
+        }
+    </div>
+    );
+  }
 }
 
 const mapStateToProps = state => ({
-  ...state
+  login_status: state.userReducer.login_status
 })
-const mapDispatchToProps = dispatch => ({
-  propsSimpleAction: () => dispatch(simpleAction())
-})
+
+const mapDispatchToProps = {
+  getLoginStatus
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,0 +1,19 @@
+export const userConstants = {
+    // Login
+    LOGIN_REQUEST: 'LOGIN_REQUEST',
+    LOGIN_SUCCESS: 'LOGIN_SUCCESS',
+    LOGIN_FAILURE: 'LOGIN_FAILURE',
+    
+    // Logging out
+    LOGOUT: 'LOGOUT',
+    
+    // Registering
+    REGISTER_REQUEST: 'REGISTER_REQUEST',
+    REGISTER_SUCCESS: 'REGISTER_SUCCESS',
+    REGISTER_FAILURE: 'REGISTER_FAILURE',
+
+    // Current Status
+    LOGIN_STATUS: 'LOGIN_STATUS',
+    LOGGED_IN: 'LOGGED_IN',
+    LOGGED_OUT: 'LOGGED_OUT'
+}
