@@ -4,6 +4,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getLoginStatus } from './actions/userActions';
+import { userConstants } from './constants/userConstants';
+import LoginPage from './components/LoginPage';
+import HomePage from './components/HomePage';
 
 class App extends Component {
 
@@ -11,13 +14,11 @@ class App extends Component {
     super(props);
     this.props.getLoginStatus();
   }
-
+  
   render() {
     return (
     <div className="App">
-        {
-          JSON.stringify(this.props.login_status)
-        }
+        {this.props.login_status === userConstants.LOGGED_OUT ? <LoginPage/> : <HomePage/>}
     </div>
     );
   }
