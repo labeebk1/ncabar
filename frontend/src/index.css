@@ -3,3 +3,26 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.valign-wrapper {
+  margin: 0px;
+	padding:0px;
+	float: left;
+	width:90%;
+	position:absolute;
+	top: 50%;
+	transform: translateY(-50%) translateX(-50%);
+	left:50%;
+}
+
+.page-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.material-icons {
+  vertical-align: -3px; 
+}
