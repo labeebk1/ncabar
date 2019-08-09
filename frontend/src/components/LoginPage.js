@@ -1,59 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import M from 'materialize-css'
+import Login from './Login';
+import Register from './Register';
 
 class LoginPage extends Component {
     
 
-  // constructor(props) {
-  //   super(props);
-  //   this.props.getLoginStatus();
-  // }
-  
-  componentDidMount(){
-    M.updateTextFields();
+  constructor(props) {
+    super(props);
+    this.state = { 
+      register: false
+    };
+    this.onClickRegister = this.onClickRegister.bind(this);
   }
+
+  onClickRegister() {
+    this.setState({
+      register: !this.state.register
+    });
+  }
+  
   render() {
     return (
-      <div className="LoginPage">
-        <div className="valign-wrapper row login-box">
-        <div className="col card hoverable s10 pull-s1 m6 pull-m3 l4 pull-l4">
-          <div className="card-content">
-            <span className="card-title center-align green-text text-darken-3">
-              <i className="material-icons prefix">check_circle</i> NCA & Bar Login
-            </span>
-            <div className="row">
-              <form>
-              <div className="input-field col s12">
-                <i className="material-icons prefix">account_circle</i>
-                <input id="email" type="email" className="validate" autoComplete="on"/>
-                <label htmlFor="email">Email</label>
-              </div>
-              <div className="input-field col s12">
-                <i className="material-icons prefix">dialpad</i>
-                <input id="password" type="password" className="validate" autoComplete="on"/>
-                <label htmlFor="password">Password</label>
-              </div>
-              </form>
-            </div>
-          </div>
-          <div className="card-action right-align">
-            <button className="btn-flat grey-text waves-effect" type="submit">
-              Register
-            </button>
-            <button className="btn green waves-effect waves-light" type="submit">
-              Login
-            </button>
-          </div>
-        </div>
-        </div>
+      <div className="App">
+        {this.state.register ? <Register onClickCancel={this.onClickRegister}/> : <Login onClickRegister={this.onClickRegister}/>}
         <footer className="page-footer green lighten-1 center-align">
             <div className="container">
             © 2019 Copyright NCA & Bar Tutoring Group
             </div>
         </footer>
       </div>
-    )}
+      )}
 }
 
 const mapStateToProps = state => ({

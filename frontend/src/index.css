@@ -26,3 +26,16 @@ body {
 .material-icons {
   vertical-align: -3px; 
 }
+
+.preloader-wrapper {
+  height: 30px !important;
+  width: 30px !important;
+  vertical-align: middle;
+}
+/* 
+#toast-container {
+  top: auto !important;
+  right: auto !important;
+  bottom: 50%;
+  left:70%;  
+} */
