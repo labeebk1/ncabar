@@ -32,6 +32,21 @@ body {
   width: 30px !important;
   vertical-align: middle;
 }
+
+.forgotPassword {
+  background: none;
+  border: none;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 0rem;
+  font-size: 13px;
+  box-shadow: none;
+  text-transform: capitalize;
+}
+.forgotPassword:hover{ background: none; border: none; box-shadow: none;}
+.forgotPassword:active{ background: none; border: none; box-shadow: none;}
+.forgotPassword:focus{ background: none; border: none; box-shadow: none;}
+.forgotPassword:visited{ background: none; border: none; box-shadow: none;}
 /* 
 #toast-container {
   top: auto !important;

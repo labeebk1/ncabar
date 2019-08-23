@@ -40,6 +40,10 @@ class Login extends Component {
             <button className="btn green waves-effect waves-light" type="submit">
               Login
             </button>
+            <br/>
+            <br/>
+            <button class="btn blue-text forgotPassword">Forgot Password?</button>
+            {/* <a href="#" className="blue-text forgotPassword"></a> */}
           </div>
         </div>
         </div>
