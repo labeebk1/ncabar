@@ -14,6 +14,7 @@ class Register extends Component {
             confirmPassword: '',
             register_button_disabled: false,
             show_spinner: false,
+            password_match_error: false
         }
         this.handleFirstName = this.handleFirstName.bind(this);
         this.handleLastName = this.handleLastName.bind(this);
@@ -29,14 +30,20 @@ class Register extends Component {
     handleConfirmPassword(event){ this.setState({confirmPassword: event.target.value}); }
 
     handleSubmit(event){
+        this.setState({
+            password_match_error: false
+        });
         if(this.state.password !== this.state.confirmPassword){
-            M.toast({html: 'Error! The passwords do not match.', classes: 'red ligten-1 rounded'});
+            this.setState({
+                password_match_error: true
+            });
             event.preventDefault();
         } else {
             M.toast({html: "Registering Email ID", classes: 'green rounded'})
             this.setState({
                 register_button_disabled: true,
-                show_spinner: true
+                show_spinner: true,
+                password_match_error: false
             });
             event.preventDefault();
             // Create call to action & reducer
@@ -79,10 +86,16 @@ class Register extends Component {
                 <input id="password" type="password" className="validate" autoComplete="off" value={this.state.password} onChange={this.handlePassword} required/>
                 <label htmlFor="password">Password</label>
               </div>
-              <div className="input-field col s12">
+              <div className={this.state.password_match_error ? "input-field col s12 confirmPassword" : "input-field col s12"}>
                 <i className="material-icons prefix">dialpad</i>
                 <input id="confirm-password" type="password" className="validate" autoComplete="off" value={this.state.confirmPassword} onChange={this.handleConfirmPassword} required/>
                 <label htmlFor="confirm-password">Confirm Password</label>
+                {this.state.password_match_error ? 
+                    <span className="helper-text red-text">
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <i className="material-icons tiny">error</i> The passwords do not match.
+                    </span> 
+                    : null
+                }
               </div>
             </div>
           </div>

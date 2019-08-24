@@ -47,6 +47,20 @@ body {
 .forgotPassword:active{ background: none; border: none; box-shadow: none;}
 .forgotPassword:focus{ background: none; border: none; box-shadow: none;}
 .forgotPassword:visited{ background: none; border: none; box-shadow: none;}
+
+/* .confirmPassword label {
+  color: red !important;
+} */
+ /* label focus color */
+ .confirmPassword input:focus + label {
+  color: red !important;
+}
+/* label underlineh focus color */
+.confirmPassword input {
+  border-bottom: 1px solid red !important;
+  box-shadow: 0 1px 0 0 red !important;
+}
+
 /* 
 #toast-container {
   top: auto !important;
