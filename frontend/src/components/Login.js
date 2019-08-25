@@ -59,7 +59,7 @@ class Login extends Component {
             </button>
             <br/>
             <br/>
-            <button class="btn blue-text forgotPassword" onClick={this.props.onClickForgotPassword}>
+            <button className="btn blue-text forgotPassword" onClick={this.props.onClickForgotPassword}>
               Forgot Password?
             </button>
           </div>

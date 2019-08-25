@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import M from 'materialize-css'
+import { registerUser, resetRegisterUser } from '../actions/userActions';
 
 class Register extends Component {
 
@@ -22,6 +23,7 @@ class Register extends Component {
         this.handlePassword = this.handlePassword.bind(this);
         this.handleConfirmPassword = this.handleConfirmPassword.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSuccess = this.handleSuccess.bind(this);
     }
     handleFirstName(event){ this.setState({first_name: event.target.value}); }
     handleLastName(event){ this.setState({last_name: event.target.value}); }
@@ -47,7 +49,19 @@ class Register extends Component {
             });
             event.preventDefault();
             // Create call to action & reducer
+            this.props.registerUser(
+                this.state.first_name,
+                this.state.last_name,
+                this.state.email,
+                this.state.password
+            );
         }
+    }
+
+    handleSuccess(){
+        M.toast({html: "Account created! You can now login.", classes: 'green rounded'});
+        this.props.resetRegisterUser();
+        this.props.onClickCancel();
     }
 
     componentDidMount(){
@@ -123,6 +137,7 @@ class Register extends Component {
             <button disabled={this.state.register_button_disabled} className="btn green waves-effect waves-light" type="submit">
                 Register
             </button>
+            {this.props.register_status === 'REGISTER_SUCCESS' ? this.handleSuccess() : null}
             </div>
         </form>
         </div>
@@ -132,10 +147,12 @@ class Register extends Component {
 }
 
 const mapStateToProps = state => ({
-    ...state
+    register_status: state.userReducer.register_status
 })
 
 const mapDispatchToProps = {
+    registerUser,
+    resetRegisterUser
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

@@ -10,6 +10,7 @@ from django.views.decorators.http import require_http_methods
 
 import random
 import string
+import json
 # Useful imports later on:
 # from django.contrib.auth.decorators import permission_required
 # from django.contrib.auth.decorators import user_passes_test
@@ -43,12 +44,14 @@ def logout_view(request):
 @require_http_methods(["POST"])
 def create_view(request):
     # New user data
-    email = request.GET.get('email')
-    password = request.GET.get('password')
-
+    data = json.loads(request.body)
+    first_name = data.get('first_name')
+    last_name = data.get('last_name')
+    email = data.get('email')
+    password = data.get('password')
     try:
         user = User.objects.get(email=email)
-        return JsonResponse({'result': 'email already exists.'}, status=200)
+        return JsonResponse({'result': 'REGISTER_FAILURE'}, status=200)
     except User.DoesNotExist:
         user = User.objects.create_user(
             username=email,
@@ -57,7 +60,7 @@ def create_view(request):
             )
         user.save()
         if user:
-            return JsonResponse({'result': 'success'}, status=200)
+            return JsonResponse({'result': 'REGISTER_SUCCESS'}, status=200)
 
 @csrf_exempt
 @login_required

@@ -2,7 +2,6 @@ import fetch from 'cross-fetch'
 import { userConstants } from '../constants/userConstants';
 
 export function getLoginStatus() {
-
     return async function(dispatch) {
         try {
             const response = await fetch('http://127.0.0.1:8000/accounts/logged_in/');
@@ -23,9 +22,51 @@ export function getLoginStatus() {
         catch (error) {
             console.log('An error occured.', error);
         }
-
     }
+}
 
+export function resetRegisterUser(){
+    return async function(dispatch){
+        dispatch({
+            type: userConstants.REGISTER_REQUEST,
+            payload: userConstants.REGISTER_REQUEST
+        })
+    }
+}
+
+export function registerUser(first_name, last_name, email, password){
+    return async function(dispatch){
+        try {
+            const response = await fetch('http://127.0.0.1:8000/accounts/create_account/', {
+               method: 'POST',
+               headers: {'Content-Type': 'application/json'},
+               mode: 'cors',
+               cache: 'default',
+               body: JSON.stringify({
+                'first_name': first_name,
+                'last_name': last_name,
+                'email': email,
+                'password': password
+               })
+            });
+            const json = await response.json();
+            if (json.result === userConstants.REGISTER_SUCCESS) {
+                dispatch({
+                    type: userConstants.REGISTER_REQUEST,
+                    payload: userConstants.REGISTER_SUCCESS
+                });
+            }
+            if (json.result === userConstants.REGISTER_FAILURE) {
+                dispatch({
+                    type: userConstants.REGISTER_REQUEST,
+                    payload: userConstants.REGISTER_FAILURE
+                });
+            }
+        }
+        catch(error) {
+            console.log('An error occured.', error);
+        }
+    }
 }
 
 // return fetch(url, {

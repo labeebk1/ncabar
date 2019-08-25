@@ -9,6 +9,10 @@ export default (state = {}, action) => {
             return {
                 login_status: action.payload
             }
+        case userConstants.REGISTER_REQUEST:
+            return {
+                register_status: action.payload
+            }
         default:
             return state
     }
