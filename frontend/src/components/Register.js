@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import M from 'materialize-css'
 import { registerUser, resetRegisterUser } from '../actions/userActions';
+import { userConstants } from '../constants/userConstants';
 
 class Register extends Component {
 
@@ -15,7 +16,8 @@ class Register extends Component {
             confirmPassword: '',
             register_button_disabled: false,
             show_spinner: false,
-            password_match_error: false
+            password_match_error: false,
+            text_disabled: false
         }
         this.handleFirstName = this.handleFirstName.bind(this);
         this.handleLastName = this.handleLastName.bind(this);
@@ -24,6 +26,8 @@ class Register extends Component {
         this.handleConfirmPassword = this.handleConfirmPassword.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSuccess = this.handleSuccess.bind(this);
+        this.handleFailure = this.handleFailure.bind(this);
+        this.props.resetRegisterUser();
     }
     handleFirstName(event){ this.setState({first_name: event.target.value}); }
     handleLastName(event){ this.setState({last_name: event.target.value}); }
@@ -32,6 +36,7 @@ class Register extends Component {
     handleConfirmPassword(event){ this.setState({confirmPassword: event.target.value}); }
 
     handleSubmit(event){
+        this.props.resetRegisterUser();
         this.setState({
             password_match_error: false
         });
@@ -45,7 +50,8 @@ class Register extends Component {
             this.setState({
                 register_button_disabled: true,
                 show_spinner: true,
-                password_match_error: false
+                password_match_error: false,
+                text_disabled: true
             });
             event.preventDefault();
             // Create call to action & reducer
@@ -63,12 +69,31 @@ class Register extends Component {
         this.props.resetRegisterUser();
         this.props.onClickCancel();
     }
+    handleFailure(){
+        this.setState({
+            register_button_disabled: false,
+            show_spinner: false,
+            text_disabled: false
+        });
+    }
 
     componentDidMount(){
         M.updateTextFields();
     }
+    
+    componentDidUpdate(prevProps) {
+        if (this.props.register_status !== prevProps.register_status){
+            if(this.props.register_status === userConstants.REGISTER_SUCCESS){
+                this.handleSuccess();
+            }
+            if(this.props.register_status === userConstants.REGISTER_FAILURE){
+                this.handleFailure();
+            }
+        }
+    }
 
     render() {
+    
     return (
         <div className="Register">
         <div className="valign-wrapper row login-box">
@@ -82,27 +107,33 @@ class Register extends Component {
             <div className="row">
               <div className="input-field col s12">
                 <i className="material-icons prefix">account_box</i>
-                <input id="first_name" type="text" className="validate" autoComplete="off" value={this.state.first_name} onChange={this.handleFirstName} required/>
+                <input disabled={this.state.text_disabled} id="first_name" type="text" className="validate" autoComplete="off" value={this.state.first_name} onChange={this.handleFirstName} required/>
                 <label htmlFor="first_name">First Name</label>
               </div>
               <div className="input-field col s12">
                 <i className="material-icons prefix">account_box</i>
-                <input id="last_name" type="text" className="validate" autoComplete="off" value={this.state.last_name} onChange={this.handleLastName} required/>
+                <input disabled={this.state.text_disabled} id="last_name" type="text" className="validate" autoComplete="off" value={this.state.last_name} onChange={this.handleLastName} required/>
                 <label htmlFor="last_name">Last Name</label>
               </div>
-              <div className="input-field col s12">
+              <div className={this.props.register_status === userConstants.REGISTER_FAILURE ? "input-field col s12 confirmPassword" : "input-field col s12"}>
                 <i className="material-icons prefix">account_circle</i>
-                <input id="email" type="email" className="validate" autoComplete="off" value={this.state.email} onChange={this.handleEmail} required/>
+                <input disabled={this.state.text_disabled}  id="email" type="email" className="validate" autoComplete="off" value={this.state.email} onChange={this.handleEmail} required/>
                 <label htmlFor="email">Email</label>
+                {this.props.register_status === userConstants.REGISTER_FAILURE ? 
+                    <span className="helper-text red-text">
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <i className="material-icons tiny">error</i> The email address is in use.
+                    </span> 
+                    : null
+                }
               </div>
               <div className="input-field col s12">
                 <i className="material-icons prefix">dialpad</i>
-                <input id="password" type="password" className="validate" autoComplete="off" value={this.state.password} onChange={this.handlePassword} required/>
+                <input disabled={this.state.text_disabled} id="password" type="password" className="validate" autoComplete="off" value={this.state.password} onChange={this.handlePassword} required/>
                 <label htmlFor="password">Password</label>
               </div>
               <div className={this.state.password_match_error ? "input-field col s12 confirmPassword" : "input-field col s12"}>
                 <i className="material-icons prefix">dialpad</i>
-                <input id="confirm-password" type="password" className="validate" autoComplete="off" value={this.state.confirmPassword} onChange={this.handleConfirmPassword} required/>
+                <input disabled={this.state.text_disabled} id="confirm-password" type="password" className="validate" autoComplete="off" value={this.state.confirmPassword} onChange={this.handleConfirmPassword} required/>
                 <label htmlFor="confirm-password">Confirm Password</label>
                 {this.state.password_match_error ? 
                     <span className="helper-text red-text">
@@ -137,7 +168,6 @@ class Register extends Component {
             <button disabled={this.state.register_button_disabled} className="btn green waves-effect waves-light" type="submit">
                 Register
             </button>
-            {this.props.register_status === 'REGISTER_SUCCESS' ? this.handleSuccess() : null}
             </div>
         </form>
         </div>
