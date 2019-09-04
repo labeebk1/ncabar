@@ -65,7 +65,7 @@ class Register extends Component {
     }
 
     handleSuccess(){
-        M.toast({html: "Account created! You can now login.", classes: 'green rounded'});
+        M.toast({html: "Account created! You can now login", classes: 'green rounded'});
         this.props.resetRegisterUser();
         this.props.onClickCancel();
     }

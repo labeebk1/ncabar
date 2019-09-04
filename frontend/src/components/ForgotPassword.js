@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import M from 'materialize-css'
+import { userConstants } from '../constants/userConstants';
+import { resetForgotPassword, forgotPassword } from '../actions/userActions';
 
 class ForgotPassword extends Component {
 
@@ -13,25 +15,51 @@ class ForgotPassword extends Component {
         }
         this.handleEmail = this.handleEmail.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleFailure = this.handleFailure.bind(this);
+        this.handleSuccess = this.handleSuccess.bind(this);
+        this.props.resetForgotPassword();
     }
 
     handleEmail(event){ this.setState({email: event.target.value}); }
 
     handleSubmit(event){
-
+      this.props.resetForgotPassword();
       M.toast({html: "Sending new password", classes: 'green rounded'})
       this.setState({
         submit_button_disabled: true,
-          show_spinner: true,
+        show_spinner: true,
       });
       event.preventDefault();
+      this.props.forgotPassword(this.state.email);
       // Create call to action & reducer
   }
 
+    handleFailure(){
+      this.setState({
+        submit_button_disabled: false,
+        show_spinner: false,
+      });
+    }
+    handleSuccess(){
+      M.toast({html: "Updated password! Please check your email", classes: 'green rounded'});
+      this.props.resetForgotPassword();
+      this.props.onClickCancel();
+    }
+  
     componentDidMount(){
         M.updateTextFields();
     }
-
+    componentDidUpdate(prevProps) {
+      if (this.props.email_status !== prevProps.email_status){
+          if(this.props.email_status === userConstants.EMAIL_DOES_NOT_EXIST || this.props.email_status === userConstants.EMAIL_SERVICE_UNAVAILABLE){
+              this.handleFailure();
+          }
+          if(this.props.email_status === userConstants.EMAIL_EXISTS_SUCCESS){
+              this.handleSuccess();
+          }
+      }
+  }
+  
     render() {
         
     return (
@@ -48,10 +76,22 @@ class ForgotPassword extends Component {
             </p>
             <br/>
             <div className="row">
-              <div className="input-field col s12">
+              <div className={this.props.email_status === userConstants.EMAIL_DOES_NOT_EXIST ? "input-field col s12 confirmPassword" : "input-field col s12"}>
                 <i className="material-icons prefix">account_circle</i>
-                <input id="email" type="email" className="validate" autoComplete="on" value={this.state.email} onChange={this.handleEmail} required/>
+                <input disabled={this.state.submit_button_disabled} id="email" type="email" className="validate" autoComplete="on" value={this.state.email} onChange={this.handleEmail} required/>
                 <label htmlFor="email">Email</label>
+                {this.props.email_status === userConstants.EMAIL_DOES_NOT_EXIST ? 
+                    <span className="helper-text red-text">
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <i className="material-icons tiny">error</i> The email address does not exist.
+                    </span> 
+                    : null
+                }
+                {this.props.email_status === userConstants.EMAIL_SERVICE_UNAVAILABLE ? 
+                    <span className="helper-text red-text">
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <i className="material-icons tiny">error</i> Email services are unavailable. Please contact labeebk1@gmail.com.
+                    </span> 
+                    : null
+                }
               </div>
             </div>
           </div>
@@ -88,10 +128,12 @@ class ForgotPassword extends Component {
 }
 
 const mapStateToProps = state => ({
-    ...state
+  email_status: state.userReducer.email_status
 })
 
 const mapDispatchToProps = {
+  resetForgotPassword,
+  forgotPassword
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);

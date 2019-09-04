@@ -69,6 +69,53 @@ export function registerUser(first_name, last_name, email, password){
     }
 }
 
+export function resetForgotPassword(){
+    return async function(dispatch){
+        dispatch({
+            type: userConstants.EMAIL_STATUS,
+            payload: userConstants.EMAIL_STATUS
+        })
+    }
+}
+
+export function forgotPassword(email) {
+    return async function(dispatch) {
+        try {
+            const response = await fetch('http://127.0.0.1:8000/accounts/forgot_password/', {
+               method: 'POST',
+               headers: {'Content-Type': 'application/json'},
+               mode: 'cors',
+               cache: 'default',
+               body: JSON.stringify({
+                'email': email,
+               })
+            });
+            const json = await response.json();
+            if (json.result === userConstants.EMAIL_DOES_NOT_EXIST) {
+                dispatch({
+                    type: userConstants.EMAIL_STATUS,
+                    payload: userConstants.EMAIL_DOES_NOT_EXIST
+                });
+            }
+            if (json.result === userConstants.EMAIL_EXISTS_SUCCESS) {
+                dispatch({
+                    type: userConstants.EMAIL_STATUS,
+                    payload: userConstants.EMAIL_EXISTS_SUCCESS
+                })
+            }
+            if (json.result === userConstants.EMAIL_SERVICE_UNAVAILABLE) {
+                dispatch({
+                    type: userConstants.EMAIL_STATUS,
+                    payload: userConstants.EMAIL_SERVICE_UNAVAILABLE
+                })
+            }
+        }
+        catch(error) {
+            console.log('An error occured.', error);
+        }
+    }
+}
+
 // return fetch(url, {
 //     method: 'POST', // *GET, POST, PUT, DELETE, etc.
 //     mode: 'cors', // no-cors, cors, *same-origin

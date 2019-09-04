@@ -74,11 +74,12 @@ def update_password(request):
 @require_http_methods(["POST"])
 def forgot_password(request):
     # Retrieve user from request
-    email = request.GET.get('email')
+    data = json.loads(request.body)
+    email = data.get('email')
     try:
         user = User.objects.get(email=email)
     except User.DoesNotExist:
-        return JsonResponse({'result': 'email not found'}, status=200)
+        return JsonResponse({'result': 'EMAIL_DOES_NOT_EXIST'}, status=200)
 
     # Generate new random password
     letters_numbers = string.ascii_letters + string.digits
@@ -113,9 +114,8 @@ def forgot_password(request):
         user.save()
     else: 
         # Send error response 503 - Service Unavailable
-        return JsonResponse({'result': 'failed to send email'}, status=503)
-
-    return JsonResponse({'result': 'success'}, status=200)
+        return JsonResponse({'result': 'EMAIL_SERVICE_UNAVAILABLE'}, status=503)
+    return JsonResponse({'result': 'EMAIL_EXISTS_SUCCESS'}, status=200)
 
 @csrf_exempt
 def logged_in(request):

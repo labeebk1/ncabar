@@ -13,6 +13,10 @@ export default (state = {}, action) => {
             return {
                 register_status: action.payload
             }
+        case userConstants.EMAIL_STATUS:
+            return {
+                email_status: action.payload
+            }
         default:
             return state
     }
