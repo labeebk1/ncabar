@@ -30,7 +30,7 @@ class LoginPage extends Component {
   
   render() {
     return (
-      <div className="App">
+      <div className="LoginPage">
         {this.state.register ? <Register onClickCancel={this.onClickRegister}/> : 
           this.state.forgot_password ? 
           <ForgotPassword onClickCancel={this.onClickForgotPassword} /> : 

@@ -19,16 +19,15 @@ import json
 @csrf_exempt
 @require_http_methods(["POST"])
 def login_view(request):
-    email = request.GET.get('email')
-    password = request.GET.get('password')
-    # import pdb; pdb.set_trace();
-    user = authenticate(username=email, password=password)
-    if user is not None:
-        if user.is_active:
-            login(request, user)
-            return JsonResponse({'result': 'LOGIN_SUCCESS'}, status=200)
-        else:
-            return JsonResponse({'result': 'LOGIN_FAILURE'}, status=200)
+    # Login data
+    data = json.loads(request.body)
+    email = data.get('email')
+    password = data.get('password')
+    user = authenticate(request, username=email, password=password)
+    if user:
+        login(request, user)
+        response = JsonResponse({'result': 'LOGIN_SUCCESS'}, status=200)
+        return response
     else:
         # Return an 'invalid login' error message.
         return JsonResponse({'result': 'LOGIN_FAILURE'}, status=200)
@@ -114,11 +113,11 @@ def forgot_password(request):
         user.save()
     else: 
         # Send error response 503 - Service Unavailable
-        return JsonResponse({'result': 'EMAIL_SERVICE_UNAVAILABLE'}, status=503)
+        return JsonResponse({'result': 'EMAIL_SERVICE_UNAVAILABLE'}, status=200)
     return JsonResponse({'result': 'EMAIL_EXISTS_SUCCESS'}, status=200)
 
 @csrf_exempt
 def logged_in(request):
-    if request.user.is_anonymous:
-        return JsonResponse({'result': 'LOGGED_OUT'}, status=200)
-    return JsonResponse({'result': 'LOGGED_IN'}, status=200)
+    if request.user.is_authenticated:
+        return JsonResponse({'result': 'LOGGED_IN'}, status=200)
+    return JsonResponse({'result': 'LOGGED_OUT'}, status=200)

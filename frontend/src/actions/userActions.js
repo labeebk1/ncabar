@@ -4,7 +4,9 @@ import { userConstants } from '../constants/userConstants';
 export function getLoginStatus() {
     return async function(dispatch) {
         try {
-            const response = await fetch('http://127.0.0.1:8000/accounts/logged_in/');
+            const response = await fetch('http://127.0.0.1:8000/accounts/logged_in/', {
+                credentials: 'include',
+            });
             const json = await response.json();
             if (json.result === userConstants.LOGGED_OUT) {
                 dispatch({
@@ -22,6 +24,53 @@ export function getLoginStatus() {
         catch (error) {
             console.log('An error occured.', error);
         }
+    }
+}
+
+export function resetLoginPage(){
+    return async function(dispatch){
+        dispatch({
+            type: userConstants.LOGIN_REQUEST,
+            payload: userConstants.LOGIN_REQUEST
+        })
+    }
+}
+
+export function login(email, password) {
+    return async function(dispatch) {
+        try {
+            const response = await fetch('http://127.0.0.1:8000/accounts/login/', {
+               method: 'POST',
+               headers: {'Content-Type': 'application/json'},
+               mode: 'cors',
+               cache: 'default',
+               body: JSON.stringify({
+                'email': email,
+                'password': password
+               }),
+               credentials: 'include',
+            });
+            const json = await response.json();
+            if (json.result === userConstants.LOGIN_SUCCESS) {
+                dispatch({
+                    type: userConstants.LOGIN_REQUEST,
+                    payload: userConstants.LOGIN_SUCCESS
+                });
+                dispatch({
+                    type: userConstants.LOGIN_STATUS,
+                    payload: userConstants.LOGGED_IN
+                });
+            }
+            if (json.result === userConstants.LOGIN_FAILURE) {
+                dispatch({
+                    type: userConstants.LOGIN_REQUEST,
+                    payload: userConstants.LOGIN_FAILURE
+                });
+            }
+        }
+        catch (error) {
+            console.log('An error occured.', error);
+        } 
     }
 }
 
@@ -47,7 +96,8 @@ export function registerUser(first_name, last_name, email, password){
                 'last_name': last_name,
                 'email': email,
                 'password': password
-               })
+               }),
+               credentials: 'include',
             });
             const json = await response.json();
             if (json.result === userConstants.REGISTER_SUCCESS) {
@@ -88,7 +138,8 @@ export function forgotPassword(email) {
                cache: 'default',
                body: JSON.stringify({
                 'email': email,
-               })
+               }),
+               credentials: 'include',
             });
             const json = await response.json();
             if (json.result === userConstants.EMAIL_DOES_NOT_EXIST) {

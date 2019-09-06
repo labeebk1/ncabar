@@ -25,8 +25,8 @@ SECRET_KEY = 'wqjxn638@*h*xe4xqccog_cp#^e$4ga($zn)!eq&!h0y1ch77z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 CORS_ORIGIN_ALLOW_ALL = True  
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 

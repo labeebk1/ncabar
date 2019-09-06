@@ -58,7 +58,7 @@ class ForgotPassword extends Component {
               this.handleSuccess();
           }
       }
-  }
+    }
   
     render() {
         

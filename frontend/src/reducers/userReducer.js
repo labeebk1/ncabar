@@ -17,6 +17,10 @@ export default (state = {}, action) => {
             return {
                 email_status: action.payload
             }
+        case userConstants.LOGIN_REQUEST:
+            return {
+                login_request: action.payload
+            }
         default:
             return state
     }
