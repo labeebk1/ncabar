@@ -15,10 +15,12 @@ class App extends Component {
     this.props.getLoginStatus();
   }
   
+  // This render will show null (blank screen) until the fetch action returns a value for login_status
   render() {
     return (
     <div className="App">
-        {this.props.login_status === userConstants.LOGGED_IN ? <HomePage/> : <LoginPage/>}
+      {this.props.login_status === userConstants.LOGGED_IN ? <HomePage/> : null} 
+      {this.props.login_status === userConstants.LOGGED_OUT ? <LoginPage/> : null} 
     </div>
     );
   }

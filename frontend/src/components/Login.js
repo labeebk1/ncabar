@@ -18,6 +18,7 @@ class Login extends Component {
         this.handleEmail = this.handleEmail.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
         this.handleFailure = this.handleFailure.bind(this);
+        this.props.resetLoginPage(); // not needed but just for testing
     }
 
     handleEmail(event){ this.setState({email: event.target.value}); }
