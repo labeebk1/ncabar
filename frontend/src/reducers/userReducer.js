@@ -25,6 +25,11 @@ export default (state = {}, action) => {
                 ...state,
                 login_request: action.payload
             }
+        case userConstants.LOGIN_NAME:
+            return {
+                ...state,
+                first_name: action.payload
+            }
         default:
             return state
     }

@@ -26,7 +26,7 @@ def login_view(request):
     user = authenticate(request, username=email, password=password)
     if user:
         login(request, user)
-        response = JsonResponse({'result': 'LOGIN_SUCCESS'}, status=200)
+        response = JsonResponse({'result': 'LOGIN_SUCCESS', 'first_name': user.first_name}, status=200)
         return response
     else:
         # Return an 'invalid login' error message.
@@ -37,7 +37,7 @@ def login_view(request):
 @require_http_methods(["GET"])
 def logout_view(request):
     logout(request)
-    return JsonResponse({'result': 'success'}, status=200)
+    return JsonResponse({'result': 'LOGOUT_SUCCESS'}, status=200)
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -53,6 +53,8 @@ def create_view(request):
         return JsonResponse({'result': 'REGISTER_FAILURE'}, status=200)
     except User.DoesNotExist:
         user = User.objects.create_user(
+            first_name=first_name,
+            last_name=last_name,
             username=email,
             email=email,
             password=password
@@ -119,5 +121,5 @@ def forgot_password(request):
 @csrf_exempt
 def logged_in(request):
     if request.user.is_authenticated:
-        return JsonResponse({'result': 'LOGGED_IN'}, status=200)
+        return JsonResponse({'result': 'LOGGED_IN', 'first_name': request.user.first_name}, status=200)
     return JsonResponse({'result': 'LOGGED_OUT'}, status=200)

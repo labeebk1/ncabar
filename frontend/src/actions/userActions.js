@@ -19,6 +19,10 @@ export function getLoginStatus() {
                     type: userConstants.LOGIN_STATUS,
                     payload: userConstants.LOGGED_IN
                 });
+                dispatch({
+                    type: userConstants.LOGIN_NAME,
+                    payload: json.first_name
+                });
             }
         }
         catch (error) {
@@ -26,7 +30,29 @@ export function getLoginStatus() {
         }
     }
 }
-
+export function logout() {
+    return async function(dispatch) {
+        try {
+            const response = await fetch('http://127.0.0.1:8000/accounts/logout/', {
+               method: 'GET',
+               headers: {'Content-Type': 'application/json'},
+               mode: 'cors',
+               cache: 'default',
+               credentials: 'include',
+            });
+            const json = await response.json();
+            if (json.result === userConstants.LOGOUT_SUCCESS) {
+                dispatch({
+                    type: userConstants.LOGIN_STATUS,
+                    payload: userConstants.LOGGED_OUT
+                });
+            }
+        }
+        catch (error) {
+            console.log('An error accured.', error);
+        }
+    }
+}
 export function resetLoginPage(){
     return async function(dispatch){
         dispatch({
@@ -55,6 +81,10 @@ export function login(email, password) {
                 dispatch({
                     type: userConstants.LOGIN_REQUEST,
                     payload: userConstants.LOGIN_SUCCESS
+                });
+                dispatch({
+                    type: userConstants.LOGIN_NAME,
+                    payload: json.first_name
                 });
                 dispatch({
                     type: userConstants.LOGIN_STATUS,
