@@ -27,7 +27,7 @@ class Login extends Component {
     handleSubmit(event){
         event.preventDefault();
         this.props.resetLoginPage();
-        M.toast({html: "Logging in", classes: 'green rounded'})
+        M.toast({html: "Logging in", classes: 'blue rounded'})
         this.setState({
           submit_button_disabled: true,
           show_spinner: true,
@@ -62,7 +62,7 @@ class Login extends Component {
         <div className="col card hoverable s10 pull-s1 m6 pull-m3 l4 pull-l4">
         <form onSubmit={this.handleSubmit}>
           <div className="card-content">
-            <span className="card-title center-align green-text text-darken-3">
+            <span className="card-title center-align blue-text text-darken-3">
               <i className="material-icons prefix">check_circle</i> NCA & Bar Login
             </span>
             <div className="row">
@@ -88,7 +88,7 @@ class Login extends Component {
           {this.state.show_spinner ? 
                 <span>
                 <div className="preloader-wrapper small active">
-                <div className="spinner-layer spinner-green-only">
+                <div className="spinner-layer spinner-blue-only">
                   <div className="circle-clipper left">
                     <div className="circle"></div>
                   </div><div className="gap-patch">
@@ -106,7 +106,7 @@ class Login extends Component {
             </button>
             }
             
-            <button disabled={this.state.submit_button_disabled} className="btn green waves-effect waves-light" type="submit">
+            <button disabled={this.state.submit_button_disabled} className="btn blue waves-effect waves-light" type="submit">
               Login
             </button>
             <br/>

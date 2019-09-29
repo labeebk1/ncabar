@@ -46,7 +46,7 @@ class Register extends Component {
             });
             event.preventDefault();
         } else {
-            M.toast({html: "Registering Email ID", classes: 'green rounded'})
+            M.toast({html: "Registering Email ID", classes: 'blue rounded'})
             this.setState({
                 register_button_disabled: true,
                 show_spinner: true,
@@ -65,7 +65,7 @@ class Register extends Component {
     }
 
     handleSuccess(){
-        M.toast({html: "Account created! You can now login", classes: 'green rounded'});
+        M.toast({html: "Account created! You can now login", classes: 'blue rounded'});
         this.props.resetRegisterUser();
         this.props.onClickCancel();
     }
@@ -100,7 +100,7 @@ class Register extends Component {
         <div className="col card hoverable s10 pull-s1 m6 pull-m3 l4 pull-l4">
         <form onSubmit={this.handleSubmit}>
           <div className="card-content">
-            <span className="card-title center-align green-text text-darken-3">
+            <span className="card-title center-align blue-text text-darken-3">
               <i className="material-icons prefix">check_circle</i> NCA & Bar Registration
             </span>
             
@@ -148,7 +148,7 @@ class Register extends Component {
             {this.state.show_spinner ? 
                 <span>
                 <div className="preloader-wrapper small active">
-                <div className="spinner-layer spinner-green-only">
+                <div className="spinner-layer spinner-blue-only">
                   <div className="circle-clipper left">
                     <div className="circle"></div>
                   </div><div className="gap-patch">
@@ -165,7 +165,7 @@ class Register extends Component {
                 Cancel
             </button>
             }
-            <button disabled={this.state.register_button_disabled} className="btn green waves-effect waves-light" type="submit">
+            <button disabled={this.state.register_button_disabled} className="btn blue waves-effect waves-light" type="submit">
                 Register
             </button>
             </div>

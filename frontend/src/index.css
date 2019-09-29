@@ -70,7 +70,7 @@ body {
 } */
 .dropdown-content {
   top: 100% !important;
-  position: absolute;
+  position: relative;
   left: 0px;
 }
 

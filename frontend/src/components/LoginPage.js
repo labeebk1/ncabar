@@ -35,11 +35,11 @@ class LoginPage extends Component {
           this.state.forgot_password ? 
           <ForgotPassword onClickCancel={this.onClickForgotPassword} /> : 
             <Login onClickRegister={this.onClickRegister} onClickForgotPassword={this.onClickForgotPassword}/>}
-        <footer className="page-footer green lighten-1 center-align">
+        {/* <footer className="page-footer blue lighten-1 center-align">
             <div className="container">
             © 2019 Copyright NCA & Bar Tutoring Group
             </div>
-        </footer>
+        </footer> */}
       </div>
       )}
 }

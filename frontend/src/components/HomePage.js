@@ -26,7 +26,7 @@ class HomePage extends Component {
 
   handleLogout(){
     event.preventDefault();
-    M.toast({html: "Logging out", classes: 'green rounded'});
+    M.toast({html: "Logging out", classes: 'blue rounded'});
     this.props.logout();
   }
 
@@ -39,18 +39,18 @@ class HomePage extends Component {
           <div className="nav-wrapper blue">
           <ul className="left hide-on-med-and-down">
               <ul id="dropdown2" className="dropdown-content">
-                <li><a href="#!">New Password</a></li>
-                <li><a href="#!" onClick={this.handleLogout}>Logout</a></li>
+                <li><a>Register</a></li>
+                <li><a onClick={this.handleLogout}>Logout</a></li>
               </ul>
-              <li><a className="dropdown-trigger" href="#!" data-target="dropdown2">Courses<i className="material-icons left">view_module</i></a></li>
+              <li><a className="dropdown-trigger" data-target="dropdown2">Courses<i className="material-icons left">view_module</i></a></li>
             </ul>
-          <a href="#!" className="brand-logo center navTitle"><i class="material-icons">assignment_turned_in</i>Home</a>
+          <a className="brand-logo center navTitle"><i class="material-icons">assignment_turned_in</i>Home</a>
             <ul className="right hide-on-med-and-down">
               <ul id="dropdown1" className="dropdown-content">
-                <li><a href="#!">Account Settings</a></li>
-                <li><a href="#!" onClick={this.handleLogout}>Logout</a></li>
+                <li><a>Account Settings</a></li>
+                <li><a onClick={this.handleLogout}>Logout</a></li>
               </ul>
-              <li><a className="dropdown-trigger" href="#!" data-target="dropdown1">{this.props.first_name}<i className="material-icons right">arrow_drop_down</i></a></li>
+              <li><a className="dropdown-trigger" data-target="dropdown1">{this.props.first_name}<i className="material-icons left">account_circle</i><i className="material-icons right">arrow_drop_down</i></a></li>
             </ul>
           </div>
         </nav>
