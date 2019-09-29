@@ -23,5 +23,6 @@ schema_view = get_swagger_view(title='NCA Bar API')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
+    path('student/', include('student.urls')),
     url(r'^$', schema_view),
 ]

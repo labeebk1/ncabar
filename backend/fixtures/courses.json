@@ -1,0 +1,16 @@
+[
+    {
+        "model": "student.course",
+        "pk": 1,
+        "fields": {
+            "name": "Constitution Law"
+        }
+    },
+    {
+        "model": "student.course",
+        "pk": 2,
+        "fields": {
+            "name": "Administrative Law"
+        }
+    }
+]
