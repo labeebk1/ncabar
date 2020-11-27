@@ -31,7 +31,7 @@ def login_view(request):
     else:
         # Return an 'invalid login' error message.
         return JsonResponse({'result': 'LOGIN_FAILURE'}, status=200)
- 
+
 @csrf_exempt
 @login_required
 @require_http_methods(["GET"])
@@ -101,16 +101,15 @@ def forgot_password(request):
     NCA Bar Tutoring Group
     """.format(email=email, new_password=new_password)
     # Retrieve account of email
-    send_mail(
+    mail = send_mail(
         subject='Your Account Password',
         message=message,
         from_email='labeeb2k@gmail.com',
         recipient_list=[email],
         fail_silently=False,
     )
-
     # If email sent - update password
-    if send_mail:
+    if mail:
         user.set_password(new_password)
         user.save()
     else: 

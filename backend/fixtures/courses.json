@@ -3,14 +3,56 @@
         "model": "student.course",
         "pk": 1,
         "fields": {
-            "name": "Constitution Law"
+            "name": "Constitutional Law"
         }
     },
     {
         "model": "student.course",
         "pk": 2,
         "fields": {
+            "name": "Criminal Law"
+        }
+    },
+    {
+        "model": "student.course",
+        "pk": 3,
+        "fields": {
             "name": "Administrative Law"
+        }
+    },
+    {
+        "model": "student.course",
+        "pk": 4,
+        "fields": {
+            "name": "Professional Responsibility"
+        }
+    },
+    {
+        "model": "student.course",
+        "pk": 5,
+        "fields": {
+            "name": "Foundation Law"
+        }
+    },
+    {
+        "model": "student.course",
+        "pk": 5,
+        "fields": {
+            "name": "Contract Law"
+        }
+    },
+    {
+        "model": "student.course",
+        "pk": 5,
+        "fields": {
+            "name": "Property Law"
+        }
+    },
+    {
+        "model": "student.course",
+        "pk": 5,
+        "fields": {
+            "name": "Law of Tort"
         }
     }
 ]
